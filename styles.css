@@ -1,0 +1,392 @@
+/* ============================================================
+   ПЕРЕМЕННЫЕ
+   Все цвета и размеры собраны здесь. Меняешь тут — меняется везде.
+   ============================================================ */
+:root {
+  /* Палитра из брендбука: чёрный, серебро, белый, серый */
+  --black:      #0A0A0B;   /* фон */
+  --black-soft: #131316;   /* фон чуть светлее */
+  --silver:     #E8E8ED;   /* основной текст */
+  --silver-dim: #A1A1A8;   /* второстепенный текст */
+  --gray:       #6E6E76;   /* самый тихий текст */
+
+  /* Стекло: белый с очень низкой непрозрачностью поверх тёмного фона */
+  --glass-bg:     rgba(255, 255, 255, 0.035);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-shine:  rgba(255, 255, 255, 0.14);  /* блик по верхней кромке */
+
+  /* Шрифт в духе Apple. На маке подхватится настоящий SF Pro */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+          "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+
+  --radius: 20px;
+  --max-width: 1080px;
+
+  /* Кривая ускорения как в iOS — движение выглядит мягким, а не механическим */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Сброс: убираем разнобой между браузерами */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }  /* плавная прокрутка по якорям */
+
+body {
+  font-family: var(--font);
+  background: var(--black);
+  color: var(--silver);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;   /* тонкое сглаживание шрифта на маке */
+  overflow-x: hidden;                     /* страница не ездит вбок */
+}
+
+/* ============================================================
+   ФОНОВОЕ СВЕЧЕНИЕ
+   Три размытых пятна. Дают глубину без единой картинки.
+   ============================================================ */
+.ambient {
+  position: fixed;
+  inset: 0;              /* растянуть на весь экран */
+  z-index: -1;           /* под контентом */
+  pointer-events: none;  /* не перехватывает клики */
+  overflow: hidden;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);   /* сильное размытие превращает круг в свечение */
+  opacity: 0.5;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  background: rgba(200, 205, 220, 0.16);
+  top: -180px; left: -120px;
+  animation: drift 22s var(--ease) infinite alternate;
+}
+.orb-2 {
+  width: 480px; height: 480px;
+  background: rgba(150, 155, 175, 0.13);
+  top: 45%; right: -160px;
+  animation: drift 28s var(--ease) infinite alternate-reverse;
+}
+.orb-3 {
+  width: 520px; height: 520px;
+  background: rgba(120, 125, 145, 0.11);
+  bottom: -220px; left: 35%;
+  animation: drift 25s var(--ease) infinite alternate;
+}
+/* Медленное «дыхание» пятен */
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(60px, -50px) scale(1.15); }
+}
+
+/* ============================================================
+   СТЕКЛО — главный приём всего сайта
+   ============================================================ */
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  /* backdrop-filter размывает ТО, ЧТО ПОЗАДИ элемента — это и есть матовое стекло */
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+}
+/* Светлая полоска по верхней кромке — имитация блика на стекле */
+.glass::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 12%; right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-shine), transparent);
+}
+
+/* ============================================================
+   ШАПКА
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);   /* центрируем по горизонтали */
+  z-index: 100;
+  width: min(var(--max-width), calc(100% - 40px));
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 100px;          /* капсула */
+}
+.nav__logo {
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--silver);
+  text-decoration: none;
+}
+.nav__cta {
+  font-size: 14px;
+  color: var(--silver-dim);
+  text-decoration: none;
+  transition: color 0.3s var(--ease);
+}
+.nav__cta:hover { color: var(--silver); }
+
+/* ============================================================
+   ПЕРВЫЙ ЭКРАН
+   ============================================================ */
+.hero {
+  min-height: 100svh;            /* svh — честная высота экрана на телефоне */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative;
+}
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-bottom: 24px;
+}
+.hero__title {
+  /* clamp(мин, гибкое, макс) — размер сам подстраивается под ширину экрана */
+  /* 38px — минимум, при котором «Минималистичные» не упирается в края телефона */
+  font-size: clamp(38px, 9vw, 92px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.035em;   /* крупный текст требует более плотных букв */
+  /* Градиент от белого к серому, залитый в сами буквы */
+  background: linear-gradient(170deg, #FFFFFF 15%, var(--silver) 45%, var(--gray) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 28px;
+}
+.hero__sub {
+  font-size: clamp(16px, 2.2vw, 20px);
+  color: var(--silver-dim);
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+.hero__actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+/* Полоска-подсказка внизу первого экрана */
+.scroll-hint {
+  position: absolute;
+  bottom: 40px; left: 50%;
+  transform: translateX(-50%);
+}
+.scroll-hint__line {
+  display: block;
+  width: 1px; height: 56px;
+  background: linear-gradient(180deg, transparent, var(--gray), transparent);
+  animation: pulse 2.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.25; transform: scaleY(0.7); }
+  50%      { opacity: 1;    transform: scaleY(1); }
+}
+
+/* ============================================================
+   КНОПКИ
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 28px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.35s var(--ease);
+  border: 1px solid transparent;
+}
+/* Главная кнопка — светлая, притягивает взгляд */
+.btn--primary {
+  background: var(--silver);
+  color: var(--black);
+}
+.btn--primary:hover {
+  background: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(232, 232, 237, 0.18);
+}
+/* Второстепенная — прозрачная, не спорит с главной */
+.btn--ghost {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: var(--glass-border);
+  color: var(--silver);
+}
+.btn--ghost:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   СЕКЦИИ
+   ============================================================ */
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 110px 24px;
+}
+.section--narrow { max-width: 760px; }
+.section__title {
+  font-size: clamp(28px, 4.5vw, 42px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin-bottom: 56px;
+}
+
+/* ============================================================
+   КАРТОЧКИ ПРИНЦИПОВ
+   ============================================================ */
+.cards {
+  display: grid;
+  /* auto-fit + minmax = карточки сами перестраиваются в 3/2/1 колонки */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.card {
+  padding: 32px 28px;
+  transition: transform 0.4s var(--ease), border-color 0.4s var(--ease);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.card__num {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--gray);
+  margin-bottom: 20px;
+}
+.card__title {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 12px;
+}
+.card__text { font-size: 15px; color: var(--silver-dim); }
+
+/* ============================================================
+   СПИСОК «ЧТО ВХОДИТ»
+   ============================================================ */
+.list { list-style: none; }
+.list__item {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 32px;
+  padding: 26px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+.list__item:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.07); }
+.list__label { font-size: 17px; font-weight: 500; }
+.list__desc  { font-size: 15px; color: var(--silver-dim); }
+
+/* ============================================================
+   ОБО МНЕ И КОНТАКТ
+   ============================================================ */
+.about { padding: 40px 36px; }
+.about__lead {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.about__text {
+  font-size: 16px;
+  color: var(--silver-dim);
+  margin-bottom: 16px;
+}
+.about__text--last {
+  margin-bottom: 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 15px;
+}
+
+/* Список гарантий внутри блока «Без сюрпризов» */
+.promise { list-style: none; margin: 28px 0; }
+.promise__item {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 24px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.promise__label { font-size: 15px; font-weight: 500; }
+.promise__text  { font-size: 15px; color: var(--silver-dim); }
+
+/* Перенос строки, который нужен только на широком экране */
+.br-wide { display: inline; }
+
+.contact { padding: 52px 40px; text-align: center; }
+.contact__title {
+  font-size: clamp(28px, 4.5vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
+}
+.contact__text {
+  font-size: 16px;
+  color: var(--silver-dim);
+  max-width: 420px;
+  margin: 0 auto 32px;
+}
+.contact__links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* ============================================================
+   ПОДВАЛ
+   ============================================================ */
+.footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 40px 24px 56px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--gray);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================================
+   ПОЯВЛЕНИЕ ПРИ ПРОКРУТКЕ
+   Стартовое состояние. Класс is-visible вешает JS.
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   ТЕЛЕФОНЫ
+   ============================================================ */
+@media (max-width: 640px) {
+  .section { padding: 80px 20px; }
+  .list__item { grid-template-columns: 1fr; gap: 8px; }
+  .promise__item { grid-template-columns: 1fr; gap: 6px; }
+  /* На телефоне текст переносится сам — принудительные переносы мешают */
+  .br-wide { display: none; }
+  .about, .contact { padding: 32px 24px; }
+  .footer { flex-direction: column; }
+}
+
+/* Уважаем системную настройку «уменьшить движение» */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}

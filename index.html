@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- viewport — без этой строки сайт на телефоне будет выглядеть как уменьшенная десктопная версия -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Давид Лисовой — минималистичные сайты</title>
+<meta name="description" content="Делаю минималистичные сайты: чёрное, серебро, стекло. Чистый код, мгновенная загрузка, сайт остаётся у вас.">
+<meta name="theme-color" content="#0A0A0B">
+
+<!-- Open Graph — то, что видно при отправке ссылки в мессенджере -->
+<meta property="og:title" content="Давид Лисовой — минималистичные сайты">
+<meta property="og:description" content="Чёрное, серебро, стекло. Ничего лишнего.">
+<meta property="og:type" content="website">
+
+<!-- favicon прямо в разметке, без отдельного файла -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230A0A0B'/><text x='16' y='23' font-size='18' font-family='system-ui' font-weight='600' fill='%23E8E8ED' text-anchor='middle'>Д</text></svg>">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Фоновое свечение. Три размытых пятна, которые медленно дышат -->
+<div class="ambient" aria-hidden="true">
+  <span class="orb orb-1"></span>
+  <span class="orb orb-2"></span>
+  <span class="orb orb-3"></span>
+</div>
+
+<!-- Шапка. Класс glass даёт эффект матового стекла -->
+<header class="nav glass">
+  <a href="#" class="nav__logo">ДЛ</a>
+  <a href="#contact" class="nav__cta">Связаться</a>
+</header>
+
+<main>
+
+  <!-- ЭКРАН 1 — первое, что видит человек -->
+  <section class="hero">
+    <p class="eyebrow reveal">Дизайн и разработка</p>
+    <h1 class="hero__title reveal">
+      Минималистичные<br>сайты
+    </h1>
+    <p class="hero__sub reveal">
+      Чёрное, серебро, стекло.<br class="br-wide">
+      Ничего лишнего — и всё грузится за секунду.
+    </p>
+    <div class="hero__actions reveal">
+      <a href="#contact" class="btn btn--primary">Обсудить проект</a>
+      <a href="#approach" class="btn btn--ghost">Как я работаю</a>
+    </div>
+
+    <!-- Подсказка проскроллить вниз -->
+    <div class="scroll-hint reveal" aria-hidden="true">
+      <span class="scroll-hint__line"></span>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 2 — три принципа -->
+  <section class="section" id="approach">
+    <p class="eyebrow reveal">Подход</p>
+    <h2 class="section__title reveal">Три вещи, на которых стою</h2>
+
+    <div class="cards">
+      <article class="card glass reveal">
+        <span class="card__num">01</span>
+        <h3 class="card__title">Минимализм</h3>
+        <p class="card__text">
+          Убираю, пока не останется только нужное. Пустое место — не пустота,
+          а элемент: оно даёт остальному дышать и работать.
+        </p>
+      </article>
+
+      <article class="card glass reveal">
+        <span class="card__num">02</span>
+        <h3 class="card__title">Скорость</h3>
+        <p class="card__text">
+          Никаких тяжёлых конструкторов. Чистый код — сайт открывается мгновенно
+          даже с телефона на плохой связи. Этот сайт весит меньше одной фотографии.
+        </p>
+      </article>
+
+      <article class="card glass reveal">
+        <span class="card__num">03</span>
+        <h3 class="card__title">Сайт ваш</h3>
+        <p class="card__text">
+          Отдаю файлы и доступы. Никаких вечных подписок за право показывать
+          собственную страницу. Захотите уйти — уходите вместе с сайтом.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 3 — что входит в работу -->
+  <section class="section">
+    <p class="eyebrow reveal">Что входит</p>
+    <h2 class="section__title reveal">От идеи до работающего адреса</h2>
+
+    <ul class="list">
+      <li class="list__item reveal">
+        <span class="list__label">Дизайн и вёрстка</span>
+        <span class="list__desc">Сайт-визитка или лендинг. Собирается под вас, не по шаблону.</span>
+      </li>
+      <li class="list__item reveal">
+        <span class="list__label">Телефон и планшет</span>
+        <span class="list__desc">Адаптив по умолчанию. Больше половины людей придут с телефона.</span>
+      </li>
+      <li class="list__item reveal">
+        <span class="list__label">Домен и хостинг</span>
+        <span class="list__desc">Настраиваю и подключаю. Вы получаете рабочий адрес, а не папку с файлами.</span>
+      </li>
+      <li class="list__item reveal">
+        <span class="list__label">Правки после запуска</span>
+        <span class="list__desc">Первый месяц — бесплатно. Дальше по договорённости.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ЭКРАН 4 — позиция и гарантии. Без личных данных -->
+  <section class="section section--narrow">
+    <p class="eyebrow reveal">Без сюрпризов</p>
+    <div class="about glass reveal">
+      <p class="about__lead">
+        Хороший сайт — не тот, где много всего.<br class="br-wide">
+        А тот, где убрано всё, что мешает.
+      </p>
+
+      <ul class="promise">
+        <li class="promise__item">
+          <span class="promise__label">Цена названа заранее</span>
+          <span class="promise__text">Сумма обсуждается до начала и не растёт по ходу работы.</span>
+        </li>
+        <li class="promise__item">
+          <span class="promise__label">Сначала макет, потом деньги</span>
+          <span class="promise__text">Показываю направление до оплаты. Не понравилось — расходимся без обид.</span>
+        </li>
+        <li class="promise__item">
+          <span class="promise__label">Ответ в течение дня</span>
+          <span class="promise__text">Не пропадаю на неделю и не отвечаю односложно.</span>
+        </li>
+        <li class="promise__item">
+          <span class="promise__label">Скажу, если задача не моя</span>
+          <span class="promise__text">Не берусь за всё подряд ради заказа. Лучше честное «нет», чем плохой сайт.</span>
+        </li>
+      </ul>
+
+      <p class="about__text about__text--last">
+        А как я работаю — видно прямо сейчас. Этот сайт сделан мной от первой строки
+        до последней.
+      </p>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 5 — контакт -->
+  <section class="section section--narrow" id="contact">
+    <div class="contact glass reveal">
+      <h2 class="contact__title">Напишите</h2>
+      <p class="contact__text">
+        Расскажите в двух предложениях, что нужно.
+        Отвечу в течение дня — с ценой и сроком.
+      </p>
+      <div class="contact__links">
+        <!-- ЗАМЕНИТЬ на свои реальные контакты -->
+        <a href="https://t.me/ЗАМЕНИТЬ" class="btn btn--primary">Telegram</a>
+        <a href="mailto:ЗАМЕНИТЬ@почта" class="btn btn--ghost">Почта</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span>© 2026 Давид Лисовой</span>
+  <span class="footer__note">Собрано вручную. Без конструкторов.</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
