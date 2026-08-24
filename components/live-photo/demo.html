@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Живое фото — демо</title>
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="live-photo.css">
+<style>
+  /* Стили только для этой страницы-демо */
+  .demo { max-width: 1080px; margin: 0 auto; padding: 90px 24px; }
+  .demo__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-top: 40px; }
+  .demo__note { font-size: 14px; color: var(--silver-dim); margin-top: 14px; }
+  .demo__how { margin-top: 80px; }
+  .demo__how h3 { font-size: 19px; font-weight: 600; margin: 32px 0 10px; }
+  .demo__how p, .demo__how li { font-size: 15px; color: var(--silver-dim); }
+  .demo__how ul { margin-left: 20px; }
+  .demo__how code { background: rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 5px; font-size: 13px; color: var(--silver); }
+  pre { background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border); border-radius: 12px; padding: 18px; overflow-x: auto; font-size: 13px; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true">
+  <span class="sheen"></span>
+  <span class="orb orb-1"></span>
+  <span class="orb orb-2"></span>
+</div>
+
+<div class="demo">
+  <p class="eyebrow">Компонент</p>
+  <h1 class="section__title">Живое фото</h1>
+  <p class="hero__sub" style="max-width:640px;margin-bottom:0">
+    Картинка, которая не стоит мёртвой. Три варианта — от самого дешёвого
+    к самому дорогому в производстве.
+  </p>
+
+  <div class="demo__grid">
+
+    <!-- 1. Эталон для сравнения -->
+    <div>
+      <div class="live">
+        <div class="live__media live__placeholder"></div>
+        <div class="live__caption">1 · Статика</div>
+      </div>
+      <p class="demo__note">Обычная картинка. Нужна для сравнения — смотри на неё первой, потом на соседние.</p>
+    </div>
+
+    <!-- 2. CSS-оживление -->
+    <div>
+      <div class="live live--css">
+        <div class="live__media live__placeholder"></div>
+        <div class="live__caption">2 · CSS-оживление</div>
+      </div>
+      <p class="demo__note">Медленный наезд плюс блик. Нужна <strong>одна фотография</strong>, ничего больше. Ноль лишнего веса.</p>
+    </div>
+
+    <!-- 3. Параллакс -->
+    <div>
+      <div class="live live--parallax">
+        <div class="live__media live__placeholder"></div>
+        <div class="live__caption">3 · Параллакс — веди мышкой</div>
+      </div>
+      <p class="demo__note">Картинка уходит от курсора. Даёт глубину. На телефоне не работает — там нет курсора, и это нормально.</p>
+    </div>
+
+  </div>
+
+  <div class="demo__how">
+    <p class="eyebrow">Как пользоваться</p>
+    <h2 class="section__title" style="margin-bottom:0">Три строчки</h2>
+
+    <h3>Со своей фотографией</h3>
+    <p>Заменить <code>div.live__placeholder</code> на <code>img</code>:</p>
+<pre>&lt;div class="live live--css"&gt;
+  &lt;img class="live__media" src="фото.jpg" alt="Описание"&gt;
+  &lt;div class="live__caption"&gt;Подпись&lt;/div&gt;
+&lt;/div&gt;</pre>
+
+    <h3>Настоящий синемаграф на видео</h3>
+    <p>Короткое видео, 3-6 секунд, зациклённое. <code>poster</code> — первый кадр, он виден пока видео грузится:</p>
+<pre>&lt;div class="live live--video"&gt;
+  &lt;video class="live__media" src="клип.mp4" poster="кадр.jpg"
+         muted loop playsinline preload="metadata"&gt;&lt;/video&gt;
+&lt;/div&gt;</pre>
+    <p class="demo__note">
+      <strong>Обязательно</strong> <code>muted</code> — без него браузер запретит автозапуск.
+      <code>playsinline</code> — чтобы iPhone не открывал видео на весь экран.
+      Запуском управляет скрипт: видео играет только пока блок на экране.
+    </p>
+
+    <h3>Что сочетается, а что нет</h3>
+    <ul>
+      <li><code>live--css</code> + <code>live--parallax</code> — наезд отключается автоматически, останется только параллакс</li>
+      <li><code>live--video</code> + <code>live--parallax</code> — работает, но осторожно: два движения сразу утомляют</li>
+    </ul>
+
+    <h3>Что учтено</h3>
+    <ul>
+      <li>Видео стоит на паузе, пока блок за экраном — не жрёт батарею и трафик</li>
+      <li>Системная настройка «уменьшить движение» — всё замирает</li>
+      <li>Пропорция держится на любой ширине через <code>aspect-ratio</code></li>
+      <li>Не сработал автозапуск — останется постер, пустой дыры не будет</li>
+    </ul>
+
+    <h3>Где брать видео</h3>
+    <p>
+      Снять на телефон — самое честное для клиентского сайта: настоящая витрина,
+      настоящий цех, настоящие руки за работой. Либо генерация ИИ, если предмета
+      не существует. Для синемаграфа важно одно: <strong>движется малая часть кадра,
+      остальное неподвижно</strong>. Полностью движущееся видео — это уже не живое фото,
+      а просто видео.
+    </p>
+  </div>
+</div>
+
+<script src="live-photo.js"></script>
+</body>
+</html>

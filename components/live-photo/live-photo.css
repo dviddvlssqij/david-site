@@ -1,0 +1,132 @@
+/* ============================================================
+   ЖИВОЕ ФОТО — два способа оживить статичную картинку
+
+   Способ 1 (.live--css)   — только CSS. Нужна одна фотография.
+   Способ 2 (.live--video) — настоящий синемаграф. Нужно короткое видео.
+
+   Оба уважают системную настройку «уменьшить движение».
+   ============================================================ */
+
+.live {
+  position: relative;
+  overflow: hidden;              /* обрезает то, что вылезает при зуме */
+  border-radius: 18px;
+  aspect-ratio: 4 / 3;           /* держит пропорцию на любой ширине */
+  background: #0A0A0B;
+  isolation: isolate;            /* замыкает режимы наложения внутри блока */
+}
+
+/* Слой самой картинки или видео */
+.live__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;             /* заполняет блок без искажения пропорций */
+  display: block;
+}
+
+/* ============================================================
+   СПОСОБ 1 · CSS-оживление статичного фото
+   ============================================================ */
+
+/* Медленный наезд камеры (эффект Кена Бёрнса).
+   Глаз не замечает движение, но картинка перестаёт быть мёртвой. */
+.live--css .live__media {
+  animation: kenburns 24s var(--live-ease, cubic-bezier(0.4,0,0.2,1)) infinite alternate;
+  transform-origin: 55% 45%;
+}
+@keyframes kenburns {
+  from { transform: scale(1)    translate(0, 0); }
+  to   { transform: scale(1.09) translate(-1.5%, -1%); }
+}
+
+/* Блик, проходящий по поверхности. Это то, что читается как «живое»:
+   свет движется, объект стоит на месте. */
+.live--css::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  background: linear-gradient(
+    100deg,
+    transparent 38%,
+    rgba(255,255,255,0.10) 46%,
+    rgba(255,255,255,0.22) 50%,
+    rgba(255,255,255,0.10) 54%,
+    transparent 62%
+  );
+  /* screen = светлое поверх тёмного даёт свечение, а не серую плёнку */
+  mix-blend-mode: screen;
+  animation: sweep 9s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes sweep {
+  0%        { transform: translateX(-60%) rotate(4deg); opacity: 0; }
+  12%       { opacity: 1; }
+  55%, 100% { transform: translateX(60%) rotate(4deg); opacity: 0; }
+}
+
+/* ============================================================
+   СПОСОБ 2 · Настоящий синемаграф на видео
+   ============================================================ */
+.live--video .live__media {
+  /* Пока видео грузится, виден poster — блок не мигает пустотой */
+  transition: opacity 0.6s ease;
+}
+
+/* ============================================================
+   ПАРАЛЛАКС ОТ КУРСОРА
+   Сдвиг задаёт JS через переменные --px / --py
+   ============================================================ */
+.live--parallax .live__media {
+  transform: translate3d(calc(var(--px, 0) * 12px), calc(var(--py, 0) * 12px), 0) scale(1.06);
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* На параллаксе наезд не нужен — иначе два движения спорят */
+.live--parallax.live--css .live__media { animation: none; }
+
+/* ============================================================
+   ПОДПИСЬ ПОВЕРХ
+   ============================================================ */
+.live__caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 20px 22px;
+  background: linear-gradient(transparent, rgba(10,10,11,0.85));
+  color: #E8E8ED;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+/* ============================================================
+   ЗАГЛУШКА вместо фотографии.
+   Абстрактный хром из градиентов — чтобы компонент можно было
+   посмотреть до того, как появилась настоящая картинка.
+   ============================================================ */
+.live__placeholder {
+  background:
+    radial-gradient(ellipse 60% 45% at 28% 22%, rgba(255,255,255,0.20), transparent 60%),
+    radial-gradient(ellipse 45% 70% at 78% 65%, rgba(190,195,215,0.12), transparent 62%),
+    conic-gradient(from 210deg at 55% 45%,
+      #101013 0deg, #2b2b33 42deg, #7e7e8b 72deg, #1e1e24 108deg,
+      #08080a 160deg, #3d3d47 215deg, #6a6a76 250deg, #141419 300deg, #101013 360deg);
+}
+
+/* Затемнение по краям: собирает внимание в центр и сажает объект в страницу */
+.live__placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 78% 78% at 50% 48%, transparent 40%, rgba(10,10,11,0.55) 100%);
+}
+
+/* ============================================================
+   УМЕНЬШЕННОЕ ДВИЖЕНИЕ
+   Если человек попросил систему меньше анимации — уважаем.
+   Видео при этом останавливается через JS.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .live--css .live__media { animation: none; transform: scale(1.04); }
+  .live--css::after       { animation: none; opacity: 0; }
+  .live--parallax .live__media { transition: none; }
+}

@@ -23,6 +23,7 @@
 <link rel="alternate" hreflang="x-default" href="/">
 
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="components/live-photo/live-photo.css">
 </head>
 <body>
 
@@ -127,6 +128,23 @@
     </ul>
   </section>
 
+  <!-- ЭКРАН 3.5 — живое фото: показываю приём, а не рассказываю о нём -->
+  <section class="section">
+    <p class="eyebrow reveal">Отличие</p>
+    <h2 class="section__title reveal">Живое фото</h2>
+
+    <div class="live live--css live--parallax reveal" style="aspect-ratio:16/9">
+      <div class="live__media live__placeholder"></div>
+      <div class="live__caption">Одна фотография. Ноль лишнего веса. Наведите курсор</div>
+    </div>
+
+    <p class="live-note reveal">
+      Статичная картинка выдаёт шаблон. Живая — задерживает взгляд на пару секунд
+      дольше, и этого хватает, чтобы человек дочитал страницу. Работает от обычной
+      фотографии: ни видео, ни тяжёлых библиотек.
+    </p>
+  </section>
+
   <!-- ЭКРАН 4 — позиция и гарантии. Без личных данных -->
   <section class="section section--narrow">
     <p class="eyebrow reveal">Без сюрпризов</p>
@@ -186,5 +204,6 @@
 </footer>
 
 <script src="script.js"></script>
+<script src="components/live-photo/live-photo.js"></script>
 </body>
 </html>

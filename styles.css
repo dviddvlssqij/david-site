@@ -341,6 +341,14 @@ body {
 .list__label { font-size: 17px; font-weight: 500; }
 .list__desc  { font-size: 15px; color: var(--silver-dim); }
 
+/* Пояснение под блоком «живое фото» */
+.live-note {
+  font-size: 15px;
+  color: var(--silver-dim);
+  max-width: 620px;
+  margin-top: 24px;
+}
+
 /* ============================================================
    ОБО МНЕ И КОНТАКТ
    ============================================================ */
