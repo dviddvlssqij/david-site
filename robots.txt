@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://david-site-1jr.pages.dev/sitemap.xml
