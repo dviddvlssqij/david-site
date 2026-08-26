@@ -482,3 +482,18 @@ body {
   }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* ============================================================
+   ОБЩИЙ ВЫКЛЮЧАТЕЛЬ ДВИЖЕНИЯ
+   Отдельные правила легко забыть обернуть — а человеку, которому
+   от движения плохо, хватит одного пропущенного. Глушим всё разом.
+   Не 0, а 0.01ms — чтобы transitionend всё ещё срабатывал.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
