@@ -3,6 +3,7 @@
    Все цвета и размеры собраны здесь. Меняешь тут — меняется везде.
    ============================================================ */
 :root {
+  color-scheme: dark;
   /* Палитра из брендбука: чёрный, серебро, белый, серый */
   --black:      #0A0A0B;   /* фон */
   --black-soft: #131316;   /* фон чуть светлее */
@@ -28,6 +29,25 @@
 
 /* Сброс: убираем разнобой между браузерами */
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* --- Доступность: добавлено 2026-08-26 по правилам Vercel --- */
+
+/* Видимое кольцо фокуса. Без него человек, идущий по сайту с клавиатуры,
+   не видит, на чём стоит. :focus-visible, а не :focus — кольцо появляется
+   от Tab, но не выскакивает от обычного клика мышью. */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--silver);
+  outline-offset: 3px;
+}
+
+/* Убирает паузу ~300 мс перед реакцией на тап и синюю вспышку в мобильном Safari. */
+html { -webkit-tap-highlight-color: transparent; }
+:where(a, button, label, summary, [role=button]) { touch-action: manipulation; }
+
+/* balance не даёт заголовку оборваться одиноким словом на последней строке. */
+h1, h2, h3 { text-wrap: balance; }
+p, li { text-wrap: pretty; }
+
 
 html { scroll-behavior: smooth; }  /* плавная прокрутка по якорям */
 
@@ -252,7 +272,10 @@ body {
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
-  transition: all 0.35s var(--ease);
+  transition: background-color 0.35s var(--ease),
+              border-color 0.35s var(--ease),
+              color 0.35s var(--ease),
+              transform 0.35s var(--ease);
   border: 1px solid transparent;
 }
 /* Главная кнопка — светлая, притягивает взгляд */
