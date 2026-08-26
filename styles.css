@@ -9,7 +9,7 @@
   --black-soft: #131316;   /* фон чуть светлее */
   --silver:     #E8E8ED;   /* основной текст */
   --silver-dim: #A1A1A8;   /* второстепенный текст */
-  --gray:       #6E6E76;   /* самый тихий текст */
+  --gray:       #7A7A83;   /* самый тихий текст */
 
   /* Стекло: белый с очень низкой непрозрачностью поверх тёмного фона */
   --glass-bg:     rgba(255, 255, 255, 0.035);
@@ -47,6 +47,17 @@ html { -webkit-tap-highlight-color: transparent; }
 /* balance не даёт заголовку оборваться одиноким словом на последней строке. */
 h1, h2, h3 { text-wrap: balance; }
 p, li { text-wrap: pretty; }
+
+/* Цель для пальца не меньше 44×44. Только на тач-экранах: на мыши курсор
+   точный, и подгонять высоту незачем — вид на компьютере не меняется. */
+@media (pointer: coarse) {
+  :where(.btn, .nav__cta) {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 
 html { scroll-behavior: smooth; }  /* плавная прокрутка по якорям */
